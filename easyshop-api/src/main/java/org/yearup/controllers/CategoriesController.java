@@ -16,7 +16,7 @@ import java.util.List;
 // add annotation to allow cross site origin requests
 @RestController
 @RequestMapping("categories")
-@CrossOrigin(origins = "http://localhost:8080/categories")
+@CrossOrigin
 public class CategoriesController
 {
     // create an Autowired controller to inject the categoryDao and ProductDao
