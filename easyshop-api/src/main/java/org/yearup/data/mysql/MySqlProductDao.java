@@ -16,6 +16,28 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         super(dataSource);
     }
 
+    public List<Product> getAll() {
+        List<Product> products = new ArrayList<>();
+        String sql = """
+                SELECT *
+                FROM products
+                """;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Product product = mapRow(resultSet);
+                products.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // or use a logger
+        }
+
+        return products;
+    }
+
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color) {
         List<Product> products = new ArrayList<>();

@@ -8,6 +8,7 @@ import org.yearup.models.Product;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,4 +48,44 @@ class MySqlProductDaoTest extends BaseDaoTestClass
         assertEquals(expected.getPrice(), actual.getPrice(), "Because I tried to get product 1 from the database.");
     }
 
+    @Test
+    public void searchProductsByMinMaxPrice_shouldReturn_theCorrectNumberOfProducts() {
+        BigDecimal minPrice = BigDecimal.valueOf(500);
+        BigDecimal maxPrice = BigDecimal.valueOf(1500);
+
+        List<Product> products = dao.search(-1, minPrice,maxPrice,"");
+
+        assertEquals(3, products.size());
+    }
+
+    @Test
+    public void updateProduct_shouldUpdateProductWithoutDuplication() {
+        Product product = new Product();
+
+        product.setName("Test Product");
+        product.setPrice(new BigDecimal("9.99"));
+        product.setCategoryId(1);
+        product.setDescription("Test Description");
+        product.setColor("");
+        product.setImageUrl("");
+        product.setStock(1);
+        product.setFeatured(true);
+
+        dao.create(product);
+        int testId = product.getProductId();
+
+        int countBeforeUpdate = dao.getAll().size();
+
+        product.setDescription("Updated Description");
+
+        dao.update(product);
+
+        Product updatedProduct = dao.getById(testId);
+
+        assertEquals("Updated Description", updatedProduct.getDescription());
+
+        int countAfterUpdate = dao.getAll().size();
+        assertEquals(countBeforeUpdate, countAfterUpdate);
+
+    }
 }
