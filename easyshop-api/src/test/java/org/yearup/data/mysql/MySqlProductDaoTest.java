@@ -71,20 +71,21 @@ class MySqlProductDaoTest extends BaseDaoTestClass
         product.setStock(1);
         product.setFeatured(true);
 
-        dao.create(product);
+        product = dao.create(product);
         int testId = product.getProductId();
 
         int countBeforeUpdate = dao.getAll().size();
 
         product.setDescription("Updated Description");
 
-        dao.update(product);
+        dao.update(product.getProductId(), product);
 
         Product updatedProduct = dao.getById(testId);
 
         assertEquals("Updated Description", updatedProduct.getDescription());
 
         int countAfterUpdate = dao.getAll().size();
+
         assertEquals(countBeforeUpdate, countAfterUpdate);
 
     }
