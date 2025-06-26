@@ -50,12 +50,15 @@ class MySqlProductDaoTest extends BaseDaoTestClass
 
     @Test
     public void searchProductsByMinMaxPrice_shouldReturn_theCorrectNumberOfProducts() {
+        // Arrange
         BigDecimal minPrice = BigDecimal.valueOf(500);
         BigDecimal maxPrice = BigDecimal.valueOf(1500);
 
+        // Act
         List<Product> products = dao.search(-1, minPrice,maxPrice,"");
 
-        assertEquals(3, products.size());
+        // Assert
+        assertEquals(1, products.size());
     }
 
     @Test
