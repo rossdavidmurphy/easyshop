@@ -115,7 +115,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                 UPDATE categories
                 SET name = ?,
                     description = ?
-                WHERE categoryId = ?;
+                WHERE category_id = ?;
                 """;
 
         try (Connection connection = dataSource.getConnection();
